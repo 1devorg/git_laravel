@@ -201,3 +201,5 @@ yarn-error.log
 
 
       !!!!!!      GIT В ЦЕЛОМ И GIT В PHP STORM 10. СОЗДАНИЕ ЗАДАЧИ(ISSUE) В GITHUB И GITLAB С ВЕТКОЙ И FETCH
+
+     Узнать как вытягивать с Гита
