@@ -238,4 +238,87 @@ yarn-error.log
 Далее из удаленного репозитария - 1_bc_post _controller необходимо залить обновление сперва на удаленную ветку - develop
 Для этого в GitHub переходим в раздел Pull requests и жмем New pull request, где выбираем наш - 1_bc_post _controller
 Жмем на него, где на открывшейся странице находим - base: master, жмем на него и выбираем - develop В этот момент GitHub
-проверяет нет ли ошибок и проблем
+проверяет нет ли ошибок и проблем, после чего жмем - Create pull request
+
+На открывшейся странице будет предоставлен выбор, если необходимо отмечаем кто еще должен подтвердить:
+     Reviewers
+      No reviews
+     Assignees
+      No one—
+
+Если нет таковых, то жмем Create pull request. Далее откроется страница где если нет конфликтов жмем -
+Merge pull request, далее жмем - Confirm merge
+
+И теперь мы обновили таким образом ветку - develop новым контроллером - PostController, который мы создали на
+локальной машине в ветке 1_bc_post _controller отправив его в тут же ветку на удаленном репозитарии, где
+создали Пулл Реквест для заливки PostController уже из УДАЛЕННОЙ Ветки - 1_bc_post _controller в Ветку - develop
+
+Теперь уже с разрешения старшихз разработчиков/алвдельца заливаем PostController на удаленном хранмлище из
+Ветки Develop в Ветку Master при помощи того же Pull requests, выбрав - develop, и совершив теже шаги что и выше
+Откуда владелец также может Сфетчить на свою локальную машину дополненный проект из Ветки - Master
+
+Как работать с GitLab описано с 3-1 минуты - все аналогично, едиственное будет предлагаться удалить ветку
+
+
+
+      !!!!!!      GIT В ЦЕЛОМ И GIT В PHP STORM 12. SSH KEY ДЛЯ GITHUB И ДЛЯ GITLA
+
+
+Чтобы не мучаться постоянно с подключением через HTTPS создадим ключи для подключения черз механизм SSH
+В Гугле можем забить - How to generate ssh key в конце добавив GitHub или GitLab И пройдя в репозитароии в выдаче
+Можем прочесть инструкцию как создавать ssh ключи
+
+В GitLab к примеру можем увидеть следующие виды SSH ключей которые можем сгенерировать:
+Algorithm 	                        Public key      	Private key
+ED25519 (preferred)              	id_ed25519.pub    	id_ed25519
+ED25519_SK 	                        id_ed25519_sk.pub 	id_ed25519_sk
+ECDSA_SK 	                        id_ecdsa_sk.pub 	id_ecdsa_sk
+RSA (at least 2048-bit key size) 	id_rsa.pub 	        id_rsa
+DSA (deprecated) 	                id_dsa.pub 	        id_dsa
+ECDSA 	                            id_ecdsa.pub     	id_ecdsa
+
+Сейчас же просто создадим Ключ для работы/доступа к GitHub и GitLab
+Для GitHub вначале нужно открыть терминал git bash, затем проверим какие ключи SSH имееются, вбив команду - ls ~/.ssh
+и увидим список файлов - id_rsa (приватный) id_rsa.pub (публичный) и сами ключи, которые по сути хранятся на ПК
+по адресу - C:\Users\7prof\.ssh)
+
+Далее создадим вид ключа первый из списка выше - ED25519 (preferred), командой - ssh-keygen -t ed25519 -C "<comment>"
+Вначале сгенерируем без комментария. Просто вобьем в GitBash - ssh-keygen -t ed25519 Далее поочередно 3 раза необходимо
+Нажать Enter, в первом случае ничего не вводим, во втором случае попросит Фразу, можно ввести 123 в обоих случаях и
+получим сгенерированные 2 ключа - id_ed25519 и id_ed25519.pub
+
+К прмеру будем работать с публичным, открываем его в редакторе и копируем все что до - 7prof@Al
+То есть - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILlP2sdF9XUhb5H2Cw61iAHeSIi+i3BWUiD2UZ/gwxrS
+Далее в GitHub нажимаем на логотип профиля, выбираем - Settings, далее - SSH and GPC keys, далее - New SSH key
+Где в открывшимся окне предложат дать название ключу (к примеру - key) и ввести сам ключ, что и сделаем
+После чего необходимо подтвердить паролем от GitHub
+
+Теперь необходимо удалить все что связано с предыдущими удаленными подключениями через HTTPS (remotes)
+Мы создавали по два вида с названиями - github и gitlab Вспомним что вбив команду - git remote -v,
+мы получали список:
+github  https://github.com/1devorg/git_laravel.git (fetch)
+github  https://github.com/1devorg/git_laravel.git (push)
+gitlab  https://gitlab.com/1devorg/git_laravel (fetch)
+gitlab  https://gitlab.com/1devorg/git_laravel (push)
+
+Эти удаленные подключения и список необходимо удалить, так как больше нам не пригодятся. Сделаем это
+командой - git remote remove github и git remote remove gitlab по очереди и можем проверить командой - git remote -v
+
+Теперь создадим новый remotes для SSH для GitHub. Просто вбиваем команду - git remote add github с добавлением
+строки которую возьмем там же что и для HTTPS ранее - Code -> SSH - > git@github.com:1devorg/git_laravel.git
+В нужном проекте - git_laravel. Итоговая команда для создания удаленного подключения по SSH для GitHub выглядит так -
+git remote add github git@github.com:1devorg/git_laravel.git Где github это название подключения. Можем проверить
+через ту же команду что и выше - git remote -v и получим список новых подключений:
+
+github  git@github.com:1devorg/git_laravel.git (fetch)
+github  git@github.com:1devorg/git_laravel.git (push)
+
+Тоже самое проделаем для GitLub - git remote add gitlab git@gitlab.com:1devorg/git_laravel.git
+
+Далее для соединения с удаленными репозитариями выберем Fetch в правом ниженм углу IDE, или через терминал
+
+
+
+
+
+
