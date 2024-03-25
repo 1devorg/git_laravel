@@ -306,6 +306,9 @@ gitlab  https://gitlab.com/1devorg/git_laravel (push)
 Эти удаленные подключения и список необходимо удалить, так как больше нам не пригодятся. Сделаем это
 командой - git remote remove github и git remote remove gitlab по очереди и можем проверить командой - git remote -v
 
+Кстати, можно заменить также командой - git remote set-url origin <SSH ссылка/путь> при вбивании запроса git remote -v
+способ подключения будет изменен на SSH
+
 Теперь создадим новый remotes для SSH для GitHub. Просто вбиваем команду - git remote add github с добавлением
 строки которую возьмем там же что и для HTTPS ранее - Code -> SSH - > git@github.com:1devorg/git_laravel.git
 В нужном проекте - git_laravel. Итоговая команда для создания удаленного подключения по SSH для GitHub выглядит так -
@@ -316,9 +319,26 @@ github  git@github.com:1devorg/git_laravel.git (fetch)
 github  git@github.com:1devorg/git_laravel.git (push)
 
 Тоже самое проделаем для GitLub - git remote add gitlab git@gitlab.com:1devorg/git_laravel.git
+Переходим в проект, далее нажимаем - Add SSH key и вводим -
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILlP2sdF9XUhb5H2Cw61iAHeSIi+i3BWUiD2UZ/gwxrS
+Далее жмем в IDE Fetch и Сфетчим проект с GitLab
+
+Если в обоих депозитариях будут ветки с одинковыми названиями, необходимо в каком-то переименовать. К примеру с master
+на masterlab
 
 Далее для соединения с удаленными репозитариями выберем Fetch в правом ниженм углу IDE, или через терминал
 Либо отправим какой-то Комит на него. При этом он попросит подтвердить что доверяем новому подключени и попросит
 ввести Фразу, которую мы создали при генерации ключа (выше) - 123
 
+
+
+      !!!!!!      GIT В ЦЕЛОМ И GIT В PHP STORM 13. MERGE CONFLICT В GIT. GIT STASH. ИНТЕРФЕЙС PHPSTORM + ТЕРМИНАЛ
+
+
+Бывает что возникают конфликты когда 2 и более разработчика к примеру внесли изменения в один и тот же файл.
+Возникнет Мерж_Конфликт. И Гит не поймет какое из внесенных изменений окончательное, и предлодит нам самим это сделать.
+
+Инструкция - https://www.youtube.com/watch?v=UCfo52dGjow&list=PLd2_Os8Cj3t_NscvtE9xd0QATeYy-kNCU&index=14
+
+Если вкратце, то выводим 3 окна, и выбираем правый или левый оставить в среднем окне и зафиксировать
 
